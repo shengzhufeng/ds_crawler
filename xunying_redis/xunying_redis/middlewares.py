@@ -5,6 +5,7 @@
 # See documentation in:
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 import random
+import requests
 from .settings import USER_AGENTS
 from .settings import PROXY as proxy_url
 
@@ -20,8 +21,6 @@ class ProxyMiddleWare(object):
     def process_request(self, request, spider):
         r = requests.get(proxy_url)
         proxy = r.text
-
-        proxy = proxy.encode("utf-8")
 
         request.meta['proxy'] = proxy
 

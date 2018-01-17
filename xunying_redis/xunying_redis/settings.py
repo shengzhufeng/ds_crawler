@@ -124,7 +124,7 @@ MONGODB_PORT = 27017
 MONGODB_DB = "movies"
 MONGODB_COLLECTION = "xunying"
 
-PROXY = 'http://127.0.0.1:5001/tinno/movies/ipproxy?protocol=0'
+PROXY = 'http://192.168.0.253:5001/tinno/movies/ipproxy?protocol=0'
 
 # 指定redis主机
 REDIS_HOST='192.168.0.252'
