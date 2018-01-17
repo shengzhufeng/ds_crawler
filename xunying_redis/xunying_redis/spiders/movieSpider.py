@@ -21,30 +21,33 @@ class MoviespiderSpider(RedisCrawlSpider):
     def parse_item(self, response):
         item = XunyingItem()
         # 电影名
-        item['name'] = response.xpath('/html/body/div[1]/div/div/div[1]/h1/text()').extract()[0].strip()
-        introduces = response.xpath('/html/body/div[1]/div/div/div[1]/div[2]/div[2]/p/text()').extract()
+        item['name'] = response.xpath('/html/body/div[2]/div/div/div[1]/h1/text()').extract()[0].strip()
+        introduces = response.xpath('/html/body/div[2]/div/div/div[1]/div[2]/div[2]/p[1]/text()').extract()
         # 介绍
         item['introduce'] = ''.join(introduces).strip()
-        tags = response.xpath('/html/body/div[1]/div/div/div[1]/div[3]/div[2]/a/text()').extract()
+        tags = response.xpath('/html/body/div[2]/div/div/div[1]/div[3]/div[2]/a/text()').extract()
         item['tags'] = ''.join(tags)
         # 其他信息
-        info = response.xpath('/html/body/div[1]/div/div/div[1]/div[1]/div[2]/table/tbody/tr')
+        info = response.xpath('/html/body/div[2]/div/div/div[1]/div[1]/div[2]/table/tbody/tr')
+        # info = response.xpath('/html/body/div[2]/div/div/div[1]/div[1]/div[2]/table/tbody')
         kMap = {
-            '评分': 'score',
+            '导演': 'director',
             '编剧': 'screenwriter',
             '主演': 'star',
+            '类型': 'type',
             '地区': 'address',
+            '语言': 'language',
             '上映时间': 'time',
             '片长': 'long',
-            '类型': 'type',
-            '又名': 'rename',
-            '导演': 'director',
-            '语言': 'language'
+            '评分': 'score',
         }
         for i in info:
             k = i.xpath('./td[1]/span/text()').extract()[0]
             v = ''.join(i.xpath('./td[2]/a/text() | ./td[2]/text()').extract())
-            item[kMap.get(k)] = v.strip().replace('/  显示全部', '')
+            if k == '又名':
+                continue
+            item[kMap.get(k)] = v
+
         # yield item
         pattern = re.compile(r'\d+')
         # 电影id

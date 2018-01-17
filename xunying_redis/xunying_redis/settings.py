@@ -57,7 +57,9 @@ DEFAULT_REQUEST_HEADERS = {
 # }
 
 DOWNLOADER_MIDDLEWARES = {
-   'xunying_redis.middlewares.RandomUserAgent': 543,
+    'xunying_redis.middlewares.RandomUserAgent': 543,
+    'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware':None,
+    'xunying_redis.middlewares.ProxyMiddleWare':125,
 }
 
 # Enable or disable extensions
@@ -116,12 +118,13 @@ ITEM_PIPELINES = {
     'scrapy_redis.pipelines.RedisPipeline':400
 }
 
-# Mysql数据库的配置信息'
-MYSQL_HOST = '127.0.0.1'
-MYSQL_DBNAME = 'dsSpider'
-MYSQL_USER = 'root'
-MYSQL_PASSWD = '111111'
-MYSQL_PORT = 3306
+# MongoDb数据库的配置信息'
+MONGODB_SERVER = "localhost"
+MONGODB_PORT = 27017
+MONGODB_DB = "movies"
+MONGODB_COLLECTION = "xunying"
+
+PROXY = 'http://127.0.0.1:5001/tinno/movies/ipproxy?protocol=0'
 
 # 指定redis主机
 REDIS_HOST='192.168.0.252'
